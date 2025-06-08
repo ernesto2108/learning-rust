@@ -1,0 +1,11 @@
+[package]
+name = "learning-rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rusqlite = { version = "0.31.0", features = ["bundled"] }
+refinery = { version = "0.8.0", features = ["rusqlite"] }
+
+[dev-dependencies]
+refinery_cli = "0.8.0"
