@@ -1,26 +1,14 @@
-use rusqlite::{Connection, Result, params}; 
+#[path = "../database/sqlite/conn.rs"]
+mod conn;
+mod product;
+
+use rusqlite::{params}; 
 use std::error::Error; 
-
-
-refinery::embed_migrations!("migrations");
-
-
-struct Product {
-    id: i32,
-    name: String,
-    price: f64,
-    quantity: i32,
-}
+use conn::{sql_client};
+use product::Product;
 
 fn main() -> Result<(), Box<dyn Error>>{
-   let mut conn = Connection::open("my_database.db")?; // Needs to be 'mut' because refinery requires a mutable connection
-    println!("Database connection established successfully.");
-
-    // Apply database migrations
-    migrations::runner().run(&mut conn)?; // Apply the embedded migrations
-    println!("Migrations successfully applied.");
-
-    // If everything went well, return Ok(()) to indicate success
+   let conn = sql_client("my_database.db")?; 
 
     let product_name = "Sample Product";
     let product_price = 19.99;
@@ -40,7 +28,7 @@ fn main() -> Result<(), Box<dyn Error>>{
     }
 
     // Example of querying the database
-    let mut stmt = conn.prepare("SELECT id, name, price FROM products")?;
+    let mut stmt = conn.prepare("SELECT id, name, price, quantity FROM products")?;
     let product_iter = stmt.query_map([], |row| {
         Ok(Product {
             id: row.get(0)?,
