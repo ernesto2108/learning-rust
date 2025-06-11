@@ -4,8 +4,13 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+# rusqlite is using by connect to sql-client
 rusqlite = { version = "0.31.0", features = ["bundled"] }
+# refinery is using by migrations
 refinery = { version = "0.8.0", features = ["rusqlite"] }
+# HTTP
+tokio = { version = "1", features = ["full"] }
+axum = "0.7" # using by created connect http
 
 [dev-dependencies]
 refinery_cli = "0.8.0"

@@ -3,7 +3,7 @@ use std::error::Error;
 
 refinery::embed_migrations!("migrations");
 
-pub fn sql_client(db_path: &str) -> Result<Connection,Box<dyn Error>> {
+pub async fn sql_client(db_path: &str) -> Result<Connection,Box<dyn Error>> {
     // Open a connection to the SQLite database
     let mut conn = Connection::open(db_path)?;
     println!("Database connection established successfully.");
